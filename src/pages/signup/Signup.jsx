@@ -14,7 +14,6 @@ const Signup = () => {
   const { signupUser, isPending, error } = useSignup();
 
   const handleSubmit = (event) => {
-    console.log("Values are -->", email, password, displayName);
     event.preventDefault();
     signupUser(email, password, displayName);
   };

@@ -4,24 +4,28 @@ import { useState } from "react";
 // Firebase
 import { projectAuthentication } from "../firebase/config";
 
+// Hooks
+import { useAuthenticationContext } from "./useAuthenticationContext";
+
 const useSignup = () => {
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
+  const { dispatch } = useAuthenticationContext();
 
   const signupUser = async (email, password, displayName) => {
     try {
       setError(null);
       setIsPending(true);
       // Create user
-      const response =
-        await projectAuthentication.createUserWithEmailAndPassword(
-          email,
-          password
-        );
-      console.log("Signup hook: User is -->", response);
+      let response = await projectAuthentication.createUserWithEmailAndPassword(
+        email,
+        password
+      );
 
       // Update profile with the display name
       await response.user.updateProfile({ displayName });
+      console.log("Signup hook: User is -->", response);
+      dispatch({ type: "LOGIN_USER", payload: response.user });
       setIsPending(false);
     } catch (error) {
       console.log("Signup hook: Error is -->", error);
