@@ -24,7 +24,6 @@ const useSignup = () => {
 
       // Update profile with the display name
       await response.user.updateProfile({ displayName });
-      console.log("Signup hook: User is -->", response);
       dispatch({ type: "LOGIN_USER", payload: response.user });
       setIsPending(false);
     } catch (error) {
