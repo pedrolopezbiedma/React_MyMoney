@@ -4,13 +4,17 @@ import { useState } from "react";
 // Styles
 import styles from "./Login.module.css";
 
+// Hooks
+import { useLogin } from "../../hooks/useLogin";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { loginUser, isPending, error } = useLogin();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("values are -->", email, password);
+    loginUser(email, password);
   };
 
   return (
@@ -34,7 +38,13 @@ const Login = () => {
           onChange={(event) => setPassword(event.target.value)}
         />
       </label>
-      <button className="btn">Login</button>
+      {!isPending && <button className="btn">Login</button>}
+      {isPending && (
+        <button disabled className="btn">
+          Loading...
+        </button>
+      )}
+      {error && <p>{error}</p>}
     </form>
   );
 };
