@@ -1,16 +1,27 @@
 // React
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+// Hooks
+import { useFirestoreUpdate } from "../hooks/useFirestoreUpdate";
 
 const CreateTransaction = () => {
   const [name, setName] = useState("");
   const [amount, setAmount] = useState("");
+  const { isPending, success, addDocument } =
+    useFirestoreUpdate("transactions");
 
   const handleCreate = (event) => {
     event.preventDefault();
-    console.log("Values are -->", name, amount);
-    setName("");
-    setAmount("");
+    addDocument(name, amount);
   };
+
+  // Clean input fields when we have added the transaction
+  useEffect(() => {
+    if (success) {
+      setName("");
+      setAmount("");
+    }
+  }, [success]);
 
   return (
     <>
@@ -34,7 +45,12 @@ const CreateTransaction = () => {
             onChange={(event) => setAmount(event.target.value)}
           />
         </label>
-        <button className="btn">Create</button>
+        {!isPending && <button className="btn">Create</button>}
+        {isPending && (
+          <button disabled className="btn">
+            Loading...
+          </button>
+        )}
       </form>
     </>
   );
