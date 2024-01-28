@@ -26,7 +26,7 @@ const AuthenticationContextProvider = ({ children }) => {
   console.log("State is -->", state);
 
   return (
-    <AuthenticationContext.Provider value={{ state, dispatch }}>
+    <AuthenticationContext.Provider value={{ ...state, dispatch }}>
       {children}
     </AuthenticationContext.Provider>
   );
