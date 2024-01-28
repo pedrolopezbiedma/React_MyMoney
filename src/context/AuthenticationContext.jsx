@@ -34,8 +34,6 @@ const AuthenticationContextProvider = ({ children }) => {
 
   useEffect(() => {
     const unsub = projectAuthentication.onAuthStateChanged((user) => {
-      console.log("User in the useEffect is -->", user);
-      // This user is the response user! Include this into Notion!
       dispatch({ type: "AUTH_READY", payload: user });
       unsub();
     });

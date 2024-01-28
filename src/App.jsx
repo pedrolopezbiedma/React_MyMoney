@@ -1,5 +1,5 @@
 // React
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
 // Context
 import { useAuthenticationContext } from "./hooks/useAuthenticationContext";
@@ -11,7 +11,7 @@ import Login from "./pages/login/Login";
 import Navbar from "./components/Navbar";
 
 function App() {
-  const { authenticationReady } = useAuthenticationContext();
+  const { authenticationReady, user } = useAuthenticationContext();
 
   return (
     <div className="App">
@@ -20,13 +20,13 @@ function App() {
           <Navbar />
           <Switch>
             <Route exact path="/">
-              <Home />
+              {!user ? <Redirect to="/login" /> : <Home />}
             </Route>
             <Route path="/signup">
-              <Signup />
+              {user ? <Redirect to="/" /> : <Signup />}
             </Route>
             <Route path="/login">
-              <Login />
+              {user ? <Redirect to="/" /> : <Login />}
             </Route>
           </Switch>
         </BrowserRouter>
