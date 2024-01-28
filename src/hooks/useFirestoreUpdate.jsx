@@ -4,6 +4,9 @@ import { useReducer } from "react";
 // Firebase
 import { projectFirestore, timestamp } from "../firebase/config";
 
+// Hooks
+import { useAuthenticationContext } from "./useAuthenticationContext";
+
 const initialState = {
   document: null,
   isPending: false,
@@ -38,6 +41,7 @@ const reducer = (state, action) => {
 
 const useFirestoreUpdate = (collectionName) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+  const { user } = useAuthenticationContext();
 
   const collectionRef = projectFirestore.collection(collectionName);
 
@@ -49,6 +53,7 @@ const useFirestoreUpdate = (collectionName) => {
         name,
         amount,
         createdAt: timestamp.fromDate(new Date()),
+        user: user.uid,
       };
       const response = await collectionRef.add(transaction);
       dispatch({ type: "CREATED", payload: response });
