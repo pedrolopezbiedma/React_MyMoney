@@ -19,7 +19,7 @@ const TransactionList = () => {
         documents.map((doc) => (
           <li key={doc.id}>
             <p className={styles.name}>{doc.name}</p>
-            <p className={styles.amount}>{doc.amount}</p>
+            <p className={styles.amount}>{doc.amount} €</p>
             <button onClick={() => handleDelete(doc.id)}>x</button>
           </li>
         ))}
