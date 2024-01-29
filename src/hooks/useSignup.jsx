@@ -27,7 +27,6 @@ const useSignup = () => {
       dispatch({ type: "LOGIN_USER", payload: response.user });
       setIsPending(false);
     } catch (error) {
-      console.log("Signup hook: Error is -->", error);
       setError(error.message);
       setIsPending(false);
     }

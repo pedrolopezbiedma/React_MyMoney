@@ -26,9 +26,8 @@ const useLogin = () => {
 
       setIsPending(false);
     } catch (error) {
-      console.log("Login hook: Error is -->", error);
       setIsPending(false);
-      setError(error.message.message);
+      setError(error.message);
     }
   };
 

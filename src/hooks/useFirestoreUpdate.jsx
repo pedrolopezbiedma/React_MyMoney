@@ -34,6 +34,15 @@ const reducer = (state, action) => {
         error: null,
         success: true,
       };
+
+    case "DELETED":
+      return {
+        document: null,
+        isPending: false,
+        error: false,
+        success: true,
+      };
+
     default:
       return state;
   }
@@ -62,7 +71,16 @@ const useFirestoreUpdate = (collectionName) => {
     }
   };
 
-  const deleteDocument = () => {};
+  const deleteDocument = async (docId) => {
+    dispatch({ type: "LOADING" });
+
+    try {
+      await collectionRef.doc(docId).delete();
+      dispatch({ type: "DELETED" });
+    } catch (error) {
+      dispatch({ type: "ERROR", payload: error.message });
+    }
+  };
 
   return { ...state, addDocument, deleteDocument };
 };

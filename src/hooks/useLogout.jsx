@@ -20,7 +20,6 @@ const useLogout = () => {
       dispatch({ type: "LOGOUT_USER" });
       setIsPending(false);
     } catch (error) {
-      console.log("Logout hook: Error is -->", error.message);
       setIsPending(false);
     }
   };
